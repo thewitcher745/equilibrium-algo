@@ -40,7 +40,7 @@ class Confirmations:
                 # If the confirmation value is small, give it half the weight
                 weight = 1
                 if -0.1 < confirmation_value < 0.1:
-                    weight = 0.1
+                    weight = 0.5
 
                 total_sum += confirmation_value
                 total_weight += weight
@@ -117,28 +117,28 @@ class Confirmations:
 
         return float((50 - rsi) / 100)
 
-    def macd(self) -> int:
-        """
-        MACD-based confirmation. If the MACD line crosses above the Signal line, it's a RISING signal, or an output of 1. If the MACD line crosses
-        below the Signal line, it's a FALLING signal or an output of -1. Otherwise, it's an output of 0, indicating no clear signal.
-        """
-
-        # If in the recent window a crossing of MACD and signal lines has occurred, return 1 for a buy signal, -1 for a sell signal, and 0 for no
-        # signal.
-
-        macd_line: pd.Series = self.indicators_df["macd_line"]
-        signal_line: pd.Series = self.indicators_df["signal_line"]
-
-        # Calculate the difference between MACD line and Signal line
-        macd_diff = macd_line - signal_line
-
-        # Check for crossing in the recent window
-        if macd_diff[-self.recent_window_size:].iloc[0] < 0 < macd_diff[-self.recent_window_size:].iloc[-1]:
-            return 1
-        elif macd_diff[-self.recent_window_size:].iloc[0] > 0 > macd_diff[-self.recent_window_size:].iloc[-1]:
-            return -1
-        else:
-            return 0
+    # def macd(self) -> int:
+    #     """
+    #     MACD-based confirmation. If the MACD line crosses above the Signal line, it's a RISING signal, or an output of 1. If the MACD line crosses
+    #     below the Signal line, it's a FALLING signal or an output of -1. Otherwise, it's an output of 0, indicating no clear signal.
+    #     """
+    #
+    #     # If in the recent window a crossing of MACD and signal lines has occurred, return 1 for a buy signal, -1 for a sell signal, and 0 for no
+    #     # signal.
+    #
+    #     macd_line: pd.Series = self.indicators_df["macd_line"]
+    #     signal_line: pd.Series = self.indicators_df["signal_line"]
+    #
+    #     # Calculate the difference between MACD line and Signal line
+    #     macd_diff = macd_line - signal_line
+    #
+    #     # Check for crossing in the recent window
+    #     if macd_diff[-self.recent_window_size:].iloc[0] < 0 < macd_diff[-self.recent_window_size:].iloc[-1]:
+    #         return 1
+    #     elif macd_diff[-self.recent_window_size:].iloc[0] > 0 > macd_diff[-self.recent_window_size:].iloc[-1]:
+    #         return -1
+    #     else:
+    #         return 0
 
     def bollinger(self):
         """

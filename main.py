@@ -9,7 +9,7 @@ from data.indicators.macd import macd
 from data.confirmations import Confirmations
 from data.indicators.stochastic_osc import stochastic_osc
 
-timeframe = "1m"
+timeframe = "1h"
 # The size of the recent window to check for signal possibilities
 recent_window_size = 5
 
@@ -36,8 +36,9 @@ while True:
             confirmations.update_indicators(indicators_df, pair_df)
             confirmations_dict = confirmations.aggregate_sentiments()
 
-            print(pair)
-            print(confirmations_dict)
+            if confirmations_dict["average"] > 0.5 and confirmations_dict["confidence"] > 0.6:
+                print(pair)
+                print(confirmations_dict)
 
         except:
             continue
