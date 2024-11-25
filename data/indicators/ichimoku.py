@@ -45,11 +45,16 @@ class Ichimoku:
         """
         self.pair_df = pair_df
 
+        lead_span_a_series = self.lead_span_a()
+        lead_span_b_series = self.lead_span_b()
+
         self.ichimoku_df = pd.DataFrame({
             "tenka": self.tenka_line(),
             "kijun": self.kijun_line(),
-            "lead_span_a": self.lead_span_a(),
-            "lead_span_b": self.lead_span_b(),
-            "lagging_span": self.lagging_span()
+            "lead_span_a": lead_span_a_series,
+            "lead_span_b": lead_span_b_series,
+            "lagging_span": self.lagging_span(),
+            "kumo": lead_span_a_series - lead_span_b_series
         })
+
         return self.ichimoku_df
