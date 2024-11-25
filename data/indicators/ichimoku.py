@@ -4,8 +4,9 @@ import pandas as pd
 class Ichimoku:
     def __init__(self, pair_df: pd.DataFrame):
         self.pair_df: pd.DataFrame = pair_df
+        self.ichimoku_df: pd.DataFrame = pd.DataFrame()
 
-    def tenka_line(self, window_size: int = 9) -> pd.Series:
+    def tenkan_line(self, window_size: int = 9) -> pd.Series:
         """
         Calculate the Tenka line.
         """
@@ -17,13 +18,13 @@ class Ichimoku:
         """
         Calculate the Kijun line.
         """
-        return self.tenka_line(window_size=window_size)
+        return self.tenkan_line(window_size=window_size)
 
     def lead_span_a(self, shift_size: int = 26) -> pd.Series:
         """
         Calculate the Lead Span A line.
         """
-        return ((self.tenka_line() + self.kijun_line()) / 2).shift(shift_size)
+        return ((self.tenkan_line() + self.kijun_line()) / 2).shift(shift_size)
 
     def lead_span_b(self, window_size: int = 52, shift_size: int = 26) -> pd.Series:
         """
@@ -49,7 +50,7 @@ class Ichimoku:
         lead_span_b_series = self.lead_span_b()
 
         self.ichimoku_df = pd.DataFrame({
-            "tenka": self.tenka_line(),
+            "tenkan": self.tenkan_line(),
             "kijun": self.kijun_line(),
             "lead_span_a": lead_span_a_series,
             "lead_span_b": lead_span_b_series,
