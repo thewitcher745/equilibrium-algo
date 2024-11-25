@@ -5,7 +5,7 @@ This project aims to develop a trading signal generator using the Ichimoku tradi
 ## Features
 
 - Fetch historical candlestick data from Nobitex and Binance APIs
-- Calculate and visualize Ichimoku trading indicators
+- Calculate and visualize Ichimoku and RSI trading indicators
 - Implement Equilibrium trading strategy principles
 - Generate trading signals based on combined indicators
 
@@ -39,21 +39,14 @@ This project aims to develop a trading signal generator using the Ichimoku tradi
 
 ## Usage
 
-1. Fetch historical candlestick data:
-    ```python
-    from data.utils import get_pair_data
-
-    symbol = 'BTCUSDT'
-    timeframe = '1h'
-    num_candles = 1000
-    candlestick_data = get_pair_data(symbol, timeframe, num_candles)
-    print(candlestick_data)
+Run the main script:
+    ```
+    python main.py
     ```
 
-2. Calculate Ichimoku indicators and generate trading signals (to be implemented).
 
 ## Project Structure
 
 - `data/`: Contains utility functions for fetching historical data and cleaning up data.
 - `data/indicators/`: Will contain functions for calculating trading indicators (to be implemented).
-- `tests/`: Contains unit tests for the project.
+- `tests/`: Contains unit tests for the project (to be implemented).
