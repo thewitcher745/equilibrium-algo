@@ -3,6 +3,7 @@ import asyncio
 
 from data import utils
 from data.indicators.ichimoku import Ichimoku
+from data.indicators.rsi import rsi
 
 timeframe = "1h"
 # The size of the recent window to check for signal possibilities
@@ -16,6 +17,10 @@ while True:
     pairs_data = asyncio.run(utils.get_multiple_pairs_data(pair_list, timeframe, 1000))
     for pair in pair_list:
         pair_df: pd.DataFrame = pairs_data[pair]
-        ichimoku.update_ichimoku_df(pair_df)
+        ichimoku_df = ichimoku.update_ichimoku_df(pair_df)
+        rsi_df = rsi(pair_df)
+
+        # The indicators_df dataframe contains all the indicator data that we need for the analysis.
+        indicators_df = pd.concat([ichimoku_df, rsi_df], axis="columns")
 
     break
