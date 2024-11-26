@@ -4,8 +4,9 @@ import pandas as pd
 import time
 from typing import List, Dict, Tuple, Optional
 
+
 async def fetch_candlestick_data(session: aiohttp.ClientSession, symbol: str, timeframe: str, start_time: int, end_time: int, num_candles: int) -> \
-Optional[Tuple[str, List[List]]]:
+        Optional[Tuple[str, List[List]]]:
     """
     Fetch historical candlestick data for a given trading pair from the Binance API.
 
@@ -35,6 +36,7 @@ Optional[Tuple[str, List[List]]]:
     except Exception as e:
         print(f"Failed to fetch data for {symbol}: {e}")
         return None
+
 
 async def get_multiple_pairs_data(pairs: List[str], timeframe: str, num_candles: int) -> Dict[str, pd.DataFrame]:
     """
