@@ -35,7 +35,7 @@ class Confirmations:
 
         for name, method in methods:
             if not name.startswith('__') and name != 'update_indicators' and name != 'aggregate_sentiments':
-                confirmation_value = method()
+                confirmation_value = round(method(), 2)
 
                 # If the confirmation value is small, give it half the weight
                 weight = 1
@@ -47,8 +47,8 @@ class Confirmations:
 
                 confirmations_dict[name] = confirmation_value
 
-        confirmations_dict["average"] = float(total_sum / total_weight)
-        confirmations_dict["confidence"] = float(1 - np.var(list(confirmations_dict.values())))
+        confirmations_dict["average"] = round(float(total_sum / total_weight), 2)
+        confirmations_dict["confidence"] = round(float(1 - np.var(list(confirmations_dict.values()))), 2)
 
         return confirmations_dict
 
@@ -140,31 +140,32 @@ class Confirmations:
     #     else:
     #         return 0
 
-    def bollinger(self):
+    def keltner(self):
         """
         Generate confirmation signal based on Bollinger Bands
         """
         last_close = self.pair_df.close.iloc[-1]
-        bollinger_band_values = self.indicators_df.iloc[-1]
+        keltner_band_values = self.indicators_df.iloc[-1]
 
-        if last_close > bollinger_band_values['upper_bollinger_band']:
+        if last_close > keltner_band_values['upper_keltner_band']:
             return -1  # Potentially overbought
-        elif last_close < bollinger_band_values['lower_bollinger_band']:
+        elif last_close < keltner_band_values['lower_keltner_band']:
             return 1  # Potentially oversold
-        elif last_close > bollinger_band_values['middle_bollinger_band']:
-            return 0.5  # Mild bullish
-        elif last_close < bollinger_band_values['middle_bollinger_band']:
-            return -0.5  # Mild bearish
+        elif last_close > keltner_band_values['middle_keltner_band']:
+            return +0.5  # Mild bullish
+        elif last_close < keltner_band_values['middle_keltner_band']:
+            return 0.5  # Mild bearish
         else:
             return 0  # Neutral
 
-    def stochastic_osc(self):
+    def stochastic_osc(self) -> float:
         last_indicator = self.indicators_df.iloc[-1]
 
         if last_indicator['stoch_k'] > 80:
             return -1  # Overbought
         elif last_indicator['stoch_k'] < 20:
             return 1  # Oversold
+
         elif last_indicator['stoch_k'] > last_indicator['stoch_d']:
             return 0.5  # Bullish momentum
         else:
