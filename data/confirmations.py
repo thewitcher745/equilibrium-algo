@@ -144,16 +144,16 @@ class Confirmations:
         """
         Generate confirmation signal based on Bollinger Bands
         """
-        last_close = self.pair_df.close.iloc[-1]
+        last_candle = self.pair_df.iloc[-1]
         keltner_band_values = self.indicators_df.iloc[-1]
 
-        if last_close > keltner_band_values['upper_keltner_band']:
+        if last_candle.high > keltner_band_values['upper_keltner_band']:
             return -1  # Potentially overbought
-        elif last_close < keltner_band_values['lower_keltner_band']:
+        elif last_candle.low < keltner_band_values['lower_keltner_band']:
             return 1  # Potentially oversold
-        elif last_close > keltner_band_values['middle_keltner_band']:
+        elif last_candle.high > keltner_band_values['middle_keltner_band']:
             return +0.5  # Mild bullish
-        elif last_close < keltner_band_values['middle_keltner_band']:
+        elif last_candle.low < keltner_band_values['middle_keltner_band']:
             return 0.5  # Mild bearish
         else:
             return 0  # Neutral
