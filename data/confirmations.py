@@ -47,8 +47,7 @@ class Confirmations:
 
                 confirmations_dict[name] = confirmation_value
 
-        confirmations_dict["average"] = round(float(total_sum / total_weight), 2)
-        confirmations_dict["confidence"] = round(float(1 - np.var(list(confirmations_dict.values()))), 2)
+        # confirmations_dict["confidence"] = round(float(1 - np.var(list(confirmations_dict.values()))), 2)
 
         return confirmations_dict
 
