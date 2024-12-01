@@ -16,7 +16,7 @@ from data.indicators.stochastic_osc import stochastic_osc
 TELEGRAM_BOT_TOKEN = '7755917604:AAETGEYAixKYv5I9GGXSfNH-jltWw47E3rs'
 TELEGRAM_CHAT_ID = '-1002442643587'
 
-timeframe = "15m"
+timeframe = "1h"
 recent_window_size = 10
 pair_list = pd.read_csv("./pair_list.csv")["pairs"].tolist()
 
@@ -38,28 +38,28 @@ def send_telegram_message(message):
 
 # Indicator Weights
 indicator_weights = {
-    # Trend Indicators Group (Total Weight: 0.4)
+    # Trend Indicators Group
     'ichimoku_group': {
-        'total_weight': 0.5,
+        'total_weight': 1,
         'indicators': {
-            'ichimoku_cloud_color': 0.3,
+            'ichimoku_cloud_color': 0.2,
             'ichimoku_crossover': 0.5,
-            'ichimoku_kumo_relative_position': 0.2
+            'ichimoku_kumo_relative_position': 0.3
         }
     },
 
-    # Momentum Indicators Group (Total Weight: 0.35)
+    # Momentum Indicators Group
     'momentum_group': {
-        'total_weight': 0.25,
+        'total_weight': 0,
         'indicators': {
             'rsi': 0.5,
             'stochastic_osc': 0.5
         }
     },
 
-    # Volatility Indicators Group (Total Weight: 0.25)
+    # Volatility Indicators Group
     'volatility_group': {
-        'total_weight': 0.25,
+        'total_weight': 0,
         'indicators': {
             'keltner': 1.0  # Only one indicator in this group
         }
