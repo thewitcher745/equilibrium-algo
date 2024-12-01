@@ -3,6 +3,7 @@ import asyncio
 import json
 import requests
 from datetime import datetime
+from dotenv import dotenv_values
 
 from data import utils
 from data.indicators.keltner import keltner
@@ -13,11 +14,12 @@ from data.confirmations import Confirmations
 from data.indicators.stochastic_osc import stochastic_osc
 
 # Telegram bot token and chat ID
-TELEGRAM_BOT_TOKEN = '7755917604:AAETGEYAixKYv5I9GGXSfNH-jltWw47E3rs'
-TELEGRAM_CHAT_ID = '-1002442643587'
+envs = dotenv_values("./.env.secret")
+TELEGRAM_BOT_TOKEN = envs["TELEGRAM_BOT_TOKEN"]
+TELEGRAM_CHAT_ID = envs["TELEGRAM_CHAT_ID"]
 
 timeframe = "1h"
-recent_window_size = 10
+recent_window_size = 5
 pair_list = pd.read_csv("./pair_list.csv")["pairs"].tolist()
 
 ichimoku = Ichimoku(pd.DataFrame())
